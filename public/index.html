@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather Assessment App</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0b6bcb">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">AI Engineer Intern Assessment</p>
+        <h1>Weather App</h1>
+        <p class="subtitle">Built by Vignesh with live weather, forecast, persistence, exports, and location context.</p>
+      </div>
+      <button id="use-location" class="icon-button" type="button" title="Use current location" aria-label="Use current location">
+        <span aria-hidden="true">⌖</span>
+      </button>
+    </header>
+
+    <main class="layout">
+      <section class="panel search-panel" aria-labelledby="search-title">
+        <div class="section-heading">
+          <h2 id="search-title">Live Weather</h2>
+          <p>Search by city, town, ZIP or postal code, landmark, or GPS coordinates.</p>
+        </div>
+        <form id="weather-form" class="input-row">
+          <label class="field">
+            <span>Location</span>
+            <input id="location-input" name="location" autocomplete="address-level2" placeholder="New York, Taj Mahal, 10001, 28.61, 77.20" required>
+          </label>
+          <button class="primary-button" type="submit">Get weather</button>
+        </form>
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+      </section>
+
+      <section id="weather-card" class="weather-card hidden" aria-live="polite">
+        <div class="current-weather">
+          <div>
+            <p class="eyebrow" id="resolved-location">Resolved location</p>
+            <h2 id="current-temp">--</h2>
+            <p id="current-summary">Weather summary</p>
+          </div>
+          <div class="weather-symbol" id="weather-symbol" aria-hidden="true">☀</div>
+        </div>
+        <div class="metrics">
+          <div><span>Feels like</span><strong id="feels-like">--</strong></div>
+          <div><span>Humidity</span><strong id="humidity">--</strong></div>
+          <div><span>Wind</span><strong id="wind">--</strong></div>
+          <div><span>Precipitation</span><strong id="precipitation">--</strong></div>
+        </div>
+        <div class="links">
+          <a id="google-map-link" target="_blank" rel="noreferrer">Google Map</a>
+          <a id="osm-link" target="_blank" rel="noreferrer">OpenStreetMap</a>
+        </div>
+      </section>
+
+      <section id="forecast-section" class="panel hidden" aria-labelledby="forecast-title">
+        <div class="section-heading">
+          <h2 id="forecast-title">5-Day Forecast</h2>
+          <p>Clear daily highs, lows, rain chance, and wind maximums.</p>
+        </div>
+        <div id="forecast-grid" class="forecast-grid"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="crud-title">
+        <div class="section-heading">
+          <h2 id="crud-title">Saved Weather Requests</h2>
+          <p>Create records with date ranges, then read, update, delete, or export stored data.</p>
+        </div>
+        <form id="record-form" class="record-form">
+          <input type="hidden" id="record-id">
+          <label class="field">
+            <span>Location</span>
+            <input id="record-location" placeholder="Tokyo" required>
+          </label>
+          <label class="field">
+            <span>Start date</span>
+            <input id="start-date" type="date" required>
+          </label>
+          <label class="field">
+            <span>End date</span>
+            <input id="end-date" type="date" required>
+          </label>
+          <label class="field notes-field">
+            <span>Notes</span>
+            <input id="notes" placeholder="Trip, commute, outdoor plan">
+          </label>
+          <div class="form-actions">
+            <button class="primary-button" type="submit" id="save-record">Save record</button>
+            <button class="ghost-button" type="button" id="cancel-edit">Cancel edit</button>
+          </div>
+        </form>
+        <div class="export-actions" aria-label="Export records">
+          <a class="ghost-button" href="/api/export?format=json">Export JSON</a>
+          <a class="ghost-button" href="/api/export?format=csv">Export CSV</a>
+          <a class="ghost-button" href="/api/export?format=markdown">Export Markdown</a>
+        </div>
+        <div id="records-list" class="records-list"></div>
+      </section>
+      <section class="panel" aria-labelledby="ai-title">
+
+  <div class="section-heading">
+    <h2 id="ai-title">AI Weather Assistant</h2>
+    <p>Ask questions about the weather forecast using AI.</p>
+  </div>
+
+  <div class="input-row">
+
+    <label class="field">
+      <span>Ask AI</span>
+      <input
+        id="ai-question"
+        placeholder="Should I carry an umbrella today?"
+      >
+    </label>
+
+    <button
+      id="ask-ai"
+      class="primary-button"
+      type="button"
+    >
+      Ask AI
+    </button>
+
+  </div>
+
+  <div
+    id="ai-answer"
+    class="message"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+</section>
+
+
+      <section id="location-info" class="panel hidden" aria-labelledby="info-title">
+        <div class="section-heading">
+          <h2 id="info-title">Location Context</h2>
+          <p>Additional API integration for useful travel context.</p>
+        </div>
+        <p id="info-copy"></p>
+        <a id="info-source" target="_blank" rel="noreferrer">Read more</a>
+      </section>
+
+      <section class="panel company-panel" aria-labelledby="company-title">
+        <div class="section-heading">
+          <h2 id="company-title">PM Accelerator</h2>
+        </div>
+        <p>
+          Product Manager Accelerator helps aspiring and working product professionals develop practical product management skills through coaching, community, and career-focused programs.
+        </p>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+    <script>
+    if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js");
+    }
+</script>
+  </body>
+</html>

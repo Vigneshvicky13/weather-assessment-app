@@ -1,0 +1,6 @@
+node_modules/
+npm-debug.log*
+.env
+server.out.log
+server.err.log
+data/weather-records.json
