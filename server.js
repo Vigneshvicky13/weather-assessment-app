@@ -840,7 +840,6 @@ async function router(req, res) {
       );
     }
 
-    /* ===== GEMINI AI ROUTE ===== */
 
     if (
       pathname === "/api/ai-weather" &&
@@ -867,6 +866,7 @@ Give a short practical answer.
 try {
 
   console.log("AI ROUTE HIT");
+  console.log("KEY EXISTS:", !!process.env.OPENROUTER_API_KEY);
 
   const response = await fetch(
     "https://openrouter.ai/api/v1/chat/completions",
