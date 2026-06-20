@@ -10,7 +10,7 @@ const DB_PATH = path.join(DATA_DIR, "weather-records.json");
 const PUBLIC_DIR = path.join(__dirname, "public");
 
 
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 const weatherDescriptions = {
   0: "Clear sky",
@@ -866,27 +866,27 @@ Give a short practical answer.
 try {
 
   console.log("AI ROUTE HIT");
-  console.log("KEY EXISTS:", !!process.env.OPENROUTER_API_KEY);
+  console.log("KEY EXISTS:", !!process.env.GROQ_API_KEY);
 
   const response = await fetch(
-    "https://openrouter.ai/api/v1/chat/completions",
-    {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "deepseek/deepseek-chat-v3",
-        messages: [
-          {
-            role: "user",
-            content: prompt
-          }
-        ]
-      })
-    }
-  );
+  "https://api.groq.com/openai/v1/chat/completions",
+  {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    })
+  }
+);
 
   const data = await response.json();
 
