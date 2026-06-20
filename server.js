@@ -864,25 +864,51 @@ ${body.question}
 Give a short practical answer.
 `;
 
-      const response = await fetch(
-  "https://openrouter.ai/api/v1/chat/completions",
-  {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: "deepseek/deepseek-chat-v3",
-      messages: [
-        {
-          role: "user",
-          content: prompt
-        }
-      ]
-    })
-  }
-);
+try {
+
+  console.log("AI ROUTE HIT");
+
+  const response = await fetch(
+    "https://openrouter.ai/api/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "deepseek/deepseek-chat-v3",
+        messages: [
+          {
+            role: "user",
+            content: prompt
+          }
+        ]
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  console.log("OPENROUTER RESPONSE:");
+  console.log(JSON.stringify(data, null, 2));
+
+  const answer =
+    data.choices?.[0]?.message?.content ||
+    data.error?.message ||
+    "No response generated.";
+
+  return json(res, 200, { answer });
+
+} catch (error) {
+
+  console.error("OPENROUTER ERROR:");
+  console.error(error);
+
+  return json(res, 500, {
+    error: error.message
+  });
+}
 
 const data = await response.json();
 
