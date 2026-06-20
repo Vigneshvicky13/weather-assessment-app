@@ -8,15 +8,9 @@ const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, "data");
 const DB_PATH = path.join(DATA_DIR, "weather-records.json");
 const PUBLIC_DIR = path.join(__dirname, "public");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY
-);
 
-const model = genAI.getGenerativeModel({
-  model: "gemini-2.5-flash"
-});
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 
 const weatherDescriptions = {
   0: "Clear sky",
@@ -870,13 +864,31 @@ ${body.question}
 Give a short practical answer.
 `;
 
-      const result =
-        await model.generateContent(
-          prompt
-        );
+      const response = await fetch(
+  "https://openrouter.ai/api/v1/chat/completions",
+  {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "deepseek/deepseek-chat-v3",
+      messages: [
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    })
+  }
+);
 
-      const answer =
-        result.response.text();
+const data = await response.json();
+
+const answer =
+  data.choices?.[0]?.message?.content ||
+  "No response generated.";
 
       return json(
         res,
