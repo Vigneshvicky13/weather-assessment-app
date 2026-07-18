@@ -1,13 +1,12 @@
-# Weather Assessment App
+# 🌦️ Weather App
 
-Full-stack JavaScript weather app for the AI Engineer Intern technical assessment.
+A full-stack JavaScript weather application that provides real-time weather information, 5-day forecasts, weather record management, location insights, and data export functionality.
 
-## Completed Assessment
+## 🌐 Live Demo
 
-This project completes both:
+**Application:** https://weather-assessment-app-1.onrender.com/
 
-- Tech Assessment #1: Frontend weather app
-- Tech Assessment #2: Backend weather app with CRUD, persistence, API integration, and exports
+---
 
 ## Features
 
@@ -18,27 +17,80 @@ This project completes both:
 - Backend REST API built with Node.js
 - File-backed NoSQL-style persistence in `data/weather-records.json`
 - CRUD operations for weather requests with location and date range validation
-- Exports saved records as JSON, CSV, or Markdown
-- Extra API integration for location context through Wikipedia summary API
-- Map links for Google Maps and OpenStreetMap
-- Responsive web-first UI
-- Includes developer name and PM Accelerator information
+- Export saved records as JSON, CSV, or Markdown
+- Location context using the Wikipedia Summary API
+- Quick links to Google Maps and OpenStreetMap
+- Responsive web-first user interface
+
+---
 
 ## Tech Stack
 
-- Frontend: HTML, CSS, vanilla JavaScript
-- Backend: Node.js built-in HTTP server
-- Database: JSON document store saved on disk
-- Weather API: Open-Meteo Forecast and Geocoding APIs
-- Extra API: Wikipedia Page Summary API
+### Frontend
 
-No npm package install is required.
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+### Backend
+
+- Node.js
+- Built-in HTTP Server
+- REST API
+
+### Database
+
+- JSON File Storage
+
+### APIs
+
+- Open-Meteo Forecast API
+- Open-Meteo Geocoding API
+- Wikipedia Page Summary API
+
+---
+
+## Project Structure
+
+```text
+weather-assessment-app/
+│
+├── public/
+│   ├── index.html
+│   ├── style.css
+│   ├── script.js
+│   ├── manifest.json
+│   └── service-worker.js
+│
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── render.yaml
+├── server.js
+└── README.md
+```
+
+---
 
 ## Requirements
 
 - Node.js 18 or newer
 
-## How To Run
+---
+
+## Run Locally
+
+```bash
+git clone https://github.com/Vigneshvicky13/weather-assessment-app.git
+```
+
+```bash
+cd weather-assessment-app
+```
+
+```bash
+npm install
+```
 
 ```bash
 npm start
@@ -49,6 +101,12 @@ Open:
 ```text
 http://localhost:3000
 ```
+
+Or use the live deployment:
+
+https://weather-assessment-app-1.onrender.com/
+
+---
 
 ## REST API
 
@@ -65,7 +123,9 @@ GET    /api/export?format=csv
 GET    /api/export?format=markdown
 ```
 
-Example create request:
+---
+
+## Example Create Request
 
 ```json
 {
@@ -76,6 +136,19 @@ Example create request:
 }
 ```
 
-## Notes For Reviewers
+---
 
-The app uses free public APIs that do not need API keys. Network access is required while running searches or saving weather records.
+## Notes
+
+- Uses free public APIs that do not require API keys.
+- Internet access is required to retrieve live weather information.
+- When hosted on Render's free tier, the first request after inactivity may take a few seconds while the service starts.
+
+---
+
+## Author
+
+**Vignesh A**
+
+- GitHub: https://github.com/Vigneshvicky13
+- Live Demo: https://weather-assessment-app-1.onrender.com/
